@@ -1,0 +1,22 @@
+# Mantiene el contenedor y el volumen existentes al mover la carpeta.
+name: mirkoproject
+services:
+  mysql:
+    image: mysql:8.0.44
+    environment:
+      MYSQL_DATABASE: cobra360
+      MYSQL_USER: cobra360
+      MYSQL_PASSWORD: ${DB_PASSWORD:-cobra360_local}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_local_only}
+    ports:
+      - "127.0.0.1:3308:3306"
+    volumes:
+      - cobra360_mysql:/var/lib/mysql
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_spanish_ci"]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+volumes:
+  cobra360_mysql:

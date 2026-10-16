@@ -1,0 +1,24 @@
+name: Verificar COBRA360
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - run: chmod +x mvnw
+      - run: ./mvnw --batch-mode verify
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm --prefix frontend run check
+      - run: npm --prefix frontend test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultados-pruebas
+          path: backend/target/surefire-reports/

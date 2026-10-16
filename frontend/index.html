@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#10243c"><meta name="description" content="COBRA360 — gestión de cartera, cobranzas y promesas de pago.">
+  <title>COBRA360 · Gestión de cobranzas</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+  <div id="login-screen" class="login-screen" hidden>
+    <section class="login-brand">
+      <a class="wordmark" href="/" aria-label="COBRA360 inicio"><span class="brand-symbol">C<span>↗</span></span> COBRA<span class="brand-light">360</span></a>
+      <div class="login-message"><span class="eyebrow light">CADA CONTACTO CUENTA</span><h1>Tu cartera.<br>Una visión<br><span>completa.</span></h1><p>Convierte cada gestión en un siguiente paso.<br>Cobranzas, compromisos y resultados, en un solo lugar.</p><div class="login-pills"><span>Gestión trazable</span><span>Decisiones claras</span></div></div>
+      <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit-dot"></div>
+      <footer>COBRA360 <span>Proyecto académico · UTP 2026</span></footer>
+    </section>
+    <section class="login-form-area"><div class="login-form-wrap"><span class="eyebrow">ESPACIO DE TRABAJO</span><h2>Qué bueno tenerte aquí.</h2><p class="muted">Ingresa para continuar con tu gestión de hoy.</p>
+      <form id="login-form"><label>Usuario<input name="username" autocomplete="username" placeholder="Tu nombre de usuario" required maxlength="30"></label><label>Contraseña<div class="password-field"><input name="password" type="password" autocomplete="current-password" placeholder="Ingresa tu contraseña" required><button type="button" data-action="password" aria-label="Mostrar contraseña">Ver</button></div></label><p id="login-error" class="form-error" role="alert"></p><button class="btn primary login-submit" type="submit">Ingresar a mi espacio <span>→</span></button></form>
+      <div class="demo-access"><span class="eyebrow">ACCESO DE DEMOSTRACIÓN</span><p>Datos ficticios para la sustentación.</p><div><button class="btn small" data-action="demo-login" data-user="supervisor">Supervisor</button><button class="btn small" data-action="demo-login" data-user="mirko">Asesor · Mirko</button></div><small>Contraseña demo: <code>Cobra360!2026</code><br>Usuarios adicionales: <code>lucia</code> y <code>diego</code>.</small></div>
+    </div></section>
+  </div>
+  <div id="workspace" class="workspace" hidden>
+    <aside class="sidebar" id="sidebar"><a class="wordmark" href="/" aria-label="COBRA360 inicio"><span class="brand-symbol">C<span>↗</span></span> COBRA<span class="brand-light">360</span></a><div class="workspace-label"><span class="status-dot"></span> Recuperaciones y cobranzas</div><span class="nav-caption">ESPACIO DE TRABAJO</span><nav id="navigation" aria-label="Navegación principal"></nav><div class="sidebar-bottom"><div class="side-help"><span class="help-icon">i</span><strong>Una gestión a la vez.</strong><p>Registra cada contacto para mantener tu cartera al día.</p></div><div class="sidebar-version"><span class="status-dot"></span> Entorno académico <span>v1.0</span></div></div></aside><button class="sidebar-backdrop" data-action="close-menu" aria-label="Cerrar menú" tabindex="-1"></button>
+    <div class="main-shell"><header class="topbar"><div class="topbar-left"><button class="icon-button mobile-toggle" data-action="menu" aria-label="Abrir menú" aria-controls="sidebar" aria-expanded="false">☰</button><span class="breadcrumb">Mi espacio <span>/</span> <strong id="breadcrumb">Resumen</strong></span></div><div class="topbar-right"><span id="today-label" class="top-date"></span><button class="icon-button notification-button" data-action="notifications" aria-label="Ver promesas vencidas"><span id="bell-icon"></span><i></i></button><span class="top-divider"></span><div class="user-avatar" id="user-avatar">AM</div><div class="user-info"><strong id="user-name"></strong><span id="user-role"></span></div><button class="icon-button" data-action="logout" aria-label="Cerrar sesión" title="Cerrar sesión">↪</button></div></header>
+    <main id="main-content" tabindex="-1"><div class="initial-loading"><span class="spinner"></span>Preparando tu espacio…</div></main><footer class="page-footer"><span>COBRA360 · Gestión con trazabilidad</span><span>Prototipo académico · Datos ficticios · Sin conexión a BBVA</span></footer></div>
+  </div>
+  <div id="startup-error" class="startup-error" hidden><h1>No pudimos conectar con el servidor.</h1><p>Comprueba que Spring Boot y MySQL estén ejecutándose.</p><button class="btn primary" data-action="reload">Volver a intentar</button></div>
+  <dialog id="detail-dialog" class="detail-dialog"><div id="dialog-content"></div></dialog>
+  <div id="toast-region" class="toast-region" role="status" aria-live="polite"></div>
+</body></html>
