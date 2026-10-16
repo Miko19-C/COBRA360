@@ -1,9 +1,9 @@
-param([string]$BaseUrl = 'http://127.0.0.1:8080')
+param([string]$BaseUrl = 'http://127.0.0.1:8080', [string]$DemoPassword = 'Cobra360!2026')
 $ErrorActionPreference = 'Stop'
 $state = Invoke-RestMethod "$BaseUrl/api/session" -SessionVariable cobraWeb
 $headers = @{}
 $headers[$state.csrfHeader] = $state.csrf
-$null = Invoke-RestMethod "$BaseUrl/api/login" -Method Post -WebSession $cobraWeb -Headers $headers -Body @{username='supervisor';password='Cobra360!2026'}
+$null = Invoke-RestMethod "$BaseUrl/api/login" -Method Post -WebSession $cobraWeb -Headers $headers -Body @{username='supervisor';password=$DemoPassword}
 $state = Invoke-RestMethod "$BaseUrl/api/session" -WebSession $cobraWeb
 $headers[$state.csrfHeader] = $state.csrf
 if (-not $state.authenticated) { throw 'No se pudo autenticar al supervisor demo.' }

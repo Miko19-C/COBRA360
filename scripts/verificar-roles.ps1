@@ -1,10 +1,10 @@
-param([string]$BaseUrl = 'http://127.0.0.1:5173')
+param([string]$BaseUrl = 'http://127.0.0.1:5173', [string]$DemoPassword = 'Cobra360!2026')
 $ErrorActionPreference = 'Stop'
 foreach ($demoUser in @('supervisor', 'mirko', 'lucia', 'diego')) {
     $session = Invoke-RestMethod "$BaseUrl/api/session" -SessionVariable roleWeb
     $headers = @{}
     $headers[$session.csrfHeader] = $session.csrf
-    $null = Invoke-RestMethod "$BaseUrl/api/login" -Method Post -WebSession $roleWeb -Headers $headers -Body @{username=$demoUser;password='Cobra360!2026'}
+    $null = Invoke-RestMethod "$BaseUrl/api/login" -Method Post -WebSession $roleWeb -Headers $headers -Body @{username=$demoUser;password=$DemoPassword}
     $session = Invoke-RestMethod "$BaseUrl/api/session" -WebSession $roleWeb
     if (-not $session.authenticated -or $session.user.usuario -ne $demoUser) { throw "Sesión incorrecta: $demoUser" }
     foreach ($route in @('cartera', 'promesas', 'pagos', 'resumen', 'reportes', 'catalogos')) {

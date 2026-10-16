@@ -17,6 +17,8 @@ public class DemoDataInitializer implements ApplicationRunner {
     private final JdbcTemplate jdbc;
     private final PasswordEncoder encoder;
     private final Clock clock;
+    @org.springframework.beans.factory.annotation.Value("${demo.password:Cobra360!2026}")
+    private String demoPassword;
     @Override @Transactional
     public void run(ApplicationArguments args){
         if(jdbc.queryForObject("select count(*) from cliente",Long.class)>0)return;
@@ -25,10 +27,10 @@ public class DemoDataInitializer implements ApplicationRunner {
         for(int i=0;i<3;i++){
             jdbc.update("insert into asesor(id_asesor,id_perfil,nombre,usuario,estado) values(?,?,?,?, 'A')",i+1,i+1,asesores[i],usuarios[i]);
             jdbc.update("insert into usuario(usuario,password_hash,nombre,rol,id_asesor) values(?,?,?,'ASESOR',?)",
-                usuarios[i],encoder.encode("Cobra360!2026"),asesores[i],i+1);
+                usuarios[i],encoder.encode(demoPassword),asesores[i],i+1);
         }
         jdbc.update("insert into usuario(usuario,password_hash,nombre,rol) values(?,?,?,'SUPERVISOR')",
-            "supervisor",encoder.encode("Cobra360!2026"),"Andrea Mendoza");
+            "supervisor",encoder.encode(demoPassword),"Andrea Mendoza");
         String[] nombres={"Valeria Rojas","Carlos Mendoza","Mariana Torres","José Castillo","Camila Vargas","Luis Fernández",
             "Daniela Herrera","Miguel Quispe","Andrea Salas","Jorge Ramírez","Luciana Paredes","Renato Flores",
             "Paola Gutiérrez","Sergio Medina","Gabriela Soto","Fernando Ríos","Adriana Chávez","Pedro Aguilar",

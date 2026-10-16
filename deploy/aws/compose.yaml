@@ -1,0 +1,55 @@
+name: cobra360-demo
+services:
+  mysql:
+    image: mysql:8.0.44
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: cobra360
+      MYSQL_USER: cobra360
+      MYSQL_PASSWORD: ${DB_PASSWORD:?required}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?required}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_spanish_ci", "--performance-schema=OFF", "--innodb-buffer-pool-size=128M"]
+    mem_limit: 600m
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 5s
+      timeout: 3s
+      retries: 40
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/cobra360?serverTimezone=America/Lima&useSSL=false&allowPublicKeyRetrieval=true
+      DB_USERNAME: cobra360
+      DB_PASSWORD: ${DB_PASSWORD:?required}
+      DEMO_PASSWORD: ${DEMO_PASSWORD:?required}
+      SPRING_PROFILES_ACTIVE: demo
+      SERVER_ADDRESS: 0.0.0.0
+      SERVER_FORWARD_HEADERS_STRATEGY: framework
+      SERVER_SERVLET_SESSION_COOKIE_SECURE: "true"
+    mem_limit: 800m
+    ports:
+      - "127.0.0.1:8080:8080"
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - app
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN:?required}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+volumes:
+  mysql_data:
+  caddy_data:
+  caddy_config:
