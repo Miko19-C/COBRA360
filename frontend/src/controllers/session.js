@@ -19,6 +19,7 @@ export async function bootstrap(render) {
       if ($('#detail-dialog').open) $('#detail-dialog').close();
     }
     state.session = session;
+    $('.demo-access').hidden = !['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname);
     $('#startup-error').hidden = true;
     $('#workspace').hidden = !state.session.authenticated;
     $('#login-screen').hidden = state.session.authenticated;
